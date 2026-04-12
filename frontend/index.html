@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskFlow | Task Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="page-bg" aria-hidden="true"></div>
+
+    <main class="layout">
+      <section class="panel brand-panel">
+        <div class="sidebar-head">
+          <p class="badge">TaskFlow</p>
+          <h1>My Lists</h1>
+          <p class="lead">Plan your day, protect your priorities, and finish with clarity.</p>
+        </div>
+
+        <div class="left-sections">
+          <button id="myDayPageBtn" class="side-nav-btn active" data-page="tasks" type="button">My Day</button>
+          <button id="importantPageBtn" class="side-nav-btn" data-page="important" type="button">Starred</button>
+          <button id="historyPageBtn" class="side-nav-btn" data-page="history" type="button">Tasks History</button>
+        </div>
+      </section>
+
+      <section class="panel app-panel">
+        <header class="app-header">
+          <div>
+            <p id="welcomeText" class="welcome">Welcome</p>
+            <h2>My Day</h2>
+          </div>
+          <button id="logoutBtn" class="btn secondary hidden" type="button">Logout</button>
+        </header>
+
+        <p id="statusMessage" class="status" role="status" aria-live="polite"></p>
+
+        <section id="authSection" class="auth-section">
+          <div class="auth-hero">
+            <p class="auth-badge">TaskFlow</p>
+            <h3>Plan Better. Finish Strong.</h3>
+            <p class="auth-lead-copy">One focused list can change your whole day. Start small, stay consistent, and win daily.</p>
+            <div class="auth-thoughts" aria-hidden="true">
+              <p>Small progress still moves you forward.</p>
+              <p>Clarity beats chaos every single time.</p>
+            </div>
+          </div>
+
+          <form id="signupForm" class="form hidden" autocomplete="off">
+            <label>
+              Full Name
+              <input type="text" id="signupName" placeholder="Your name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" id="signupEmail" placeholder="you@example.com" required />
+            </label>
+            <label>
+              Password
+              <input type="password" id="signupPassword" placeholder="Minimum 6 characters" minlength="6" required />
+            </label>
+            <button class="btn" type="submit">Create Account</button>
+          </form>
+
+          <form id="loginForm" class="form" autocomplete="off">
+            <label>
+              Email
+              <input type="email" id="loginEmail" placeholder="you@example.com" required />
+            </label>
+            <label>
+              Password
+              <input type="password" id="loginPassword" placeholder="Your password" required />
+            </label>
+            <button class="btn" type="submit">Login</button>
+            <p class="auth-switch">Don't have account ? <a href="#" id="goToSignupLink">Sign up now</a></p>
+          </form>
+
+          <p id="authMessage" class="auth-message hidden" role="status" aria-live="polite"></p>
+        </section>
+
+        <section id="taskSection" class="task-section hidden">
+          <div class="myday-layout">
+            <div class="myday-main">
+              <form id="taskForm" class="task-form">
+                <input id="taskInput" type="text" placeholder="Add a task" maxlength="200" required />
+                <div class="form-actions">
+                  <button id="calendarToggleBtn" class="btn secondary" type="button" title="Pick a date for this task">📅</button>
+                  <button class="btn" type="submit">Add</button>
+                </div>
+              </form>
+
+              <div id="calendarPopup" class="calendar-popup hidden">
+                <div class="calendar-header">
+                  <button id="prevMonthBtn" class="cal-nav-btn" type="button">◀</button>
+                  <h4 id="calendarMonth">January 2024</h4>
+                  <button id="nextMonthBtn" class="cal-nav-btn" type="button">▶</button>
+                </div>
+                <div class="calendar-weekdays">
+                  <div class="weekday">Sun</div>
+                  <div class="weekday">Mon</div>
+                  <div class="weekday">Tue</div>
+                  <div class="weekday">Wed</div>
+                  <div class="weekday">Thu</div>
+                  <div class="weekday">Fri</div>
+                  <div class="weekday">Sat</div>
+                </div>
+                <div id="calendarGrid" class="calendar-grid"></div>
+                <div class="calendar-footer">
+                  <button id="clearDateBtn" class="btn secondary" type="button">Clear Date</button>
+                </div>
+              </div>
+
+              <div class="task-meta">
+                <p id="selectedDateInfo"></p>
+                <div id="dateFilterInfo" class="date-filter-info hidden">
+                  <p>Showing tasks for <strong id="filterDateDisplay"></strong></p>
+                  <button id="clearFilterBtn" class="btn secondary small-btn" type="button">Back to Today</button>
+                </div>
+                <p id="taskCount">0 tasks</p>
+              </div>
+
+              <ul id="taskList" class="task-list" aria-label="Task List"></ul>
+            </div>
+
+            <aside class="myday-right">
+              <div class="suggestion-block side-pane">
+                <div class="page-head-row">
+                  <h3>AI Task Suggestions</h3>
+                  <button id="aiSuggestBtn" class="action-btn ai-btn" type="button">Suggest</button>
+                </div>
+                <ul id="aiSuggestionList" class="task-list compact-list" aria-label="AI Task Suggestions">
+                  <li class="task-item"><p class="task-title">Click suggest to generate ideas.</p></li>
+                </ul>
+              </div>
+
+              <div class="side-pane">
+                <div class="page-head-row">
+                  <h3>Ask AI</h3>
+                </div>
+                <div class="ai-assistant-form">
+                  <label for="aiQuestionInput">Your Question</label>
+                  <textarea
+                    id="aiQuestionInput"
+                    class="ai-query"
+                    rows="4"
+                    placeholder="Ask anything you want..."
+                  ></textarea>
+                  <button id="askAiBtn" class="btn" type="button">Ask Now</button>
+                  <div id="aiResponseBox" class="ai-response-box">
+                    <p id="aiResponseText">Your AI answer will appear here.</p>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="importantSection" class="task-section hidden">
+          <div class="page-head-row">
+            <h3>Starred</h3>
+          </div>
+          <div id="importantDateFilterInfo" class="date-filter-info">
+            <p>Showing tasks for <strong id="importantFilterDateDisplay"></strong></p>
+          </div>
+          <ul id="importantTaskList" class="task-list" aria-label="Very Important Tasks">
+            <li class="task-item"><p class="task-title">Star tasks to see them here.</p></li>
+          </ul>
+        </section>
+
+        <section id="historySection" class="task-section hidden">
+          <div class="page-head-row">
+            <h3>Tasks History (Date Wise)</h3>
+          </div>
+          <ul id="completedHistoryList" class="task-list" aria-label="Completed History by Date">
+            <li class="task-item"><p class="task-title">Complete tasks to build your history.</p></li>
+          </ul>
+        </section>
+      </section>
+    </main>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

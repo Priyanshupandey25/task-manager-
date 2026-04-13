@@ -1,4 +1,4 @@
-const API_BASE_URL = `${window.location.origin}/api`;
+const API_BASE_URL = "https://task-manager-1-jj6m.onrender.com";
 
 const getTodayDateStr = () => {
   const today = new Date();
